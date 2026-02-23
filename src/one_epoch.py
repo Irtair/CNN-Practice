@@ -78,38 +78,3 @@ class TrainModel():
             torch.save(self.model.state_dict(), f'./best_model/best_model.pt')
 
         return avg_vloss
-
-    
-    def eval(self):
-        # Перевод модели в режим валидации
-        self.model.eval()
-        running_vloss = 0.0
-        all_preds = []
-        all_labels = []
-
-        # Валидация
-        with torch.no_grad():
-            for vinputs, vlabels in tqdm(self.val_loader, desc=f"🔃 Валидация модели", leave=False):
-                vinputs = vinputs.to(self.device)
-                vlabels = vlabels.to(self.device)
-
-                voutputs = self.model(vinputs)
-                vloss = self.criterion(voutputs, vlabels)
-
-                running_vloss += vloss.item()
-
-                preds = torch.argmax(voutputs, dim=1)
-                all_preds.extend(preds.cpu().numpy())
-                all_labels.extend(vlabels.cpu().numpy())
-
-        avg_vloss = running_vloss / len(self.val_loader)
-
-        class_names = self.val_loader.dataset.classes
-
-        
-        # Метрики по каждому классу
-        report = classification_report(all_labels, all_preds, target_names=class_names)
-        overall_accuracy = accuracy_score(all_labels, all_preds)
-        print(f'Overall Accuracy: {overall_accuracy:.4f}')
-        print('\nМетрики по классам:')
-        print(report)

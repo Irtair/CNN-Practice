@@ -31,17 +31,17 @@ def process_data(config):
         train_dataset, 
         batch_size=config["data"]["train_batch_size"], 
         shuffle=True,
-        # num_workers=4,
-        # pin_memory=True,
-        # persistent_workers=True
+        num_workers=4,
+        pin_memory=True,
+        persistent_workers=True
     )
 
     val_loader = DataLoader(
         val_dataset, 
         batch_size=config["data"]["val_batch_size"],
-        # num_workers=4,
-        # pin_memory=True,
-        # persistent_workers=True
+        num_workers=4,
+        pin_memory=True,
+        persistent_workers=True
     )     
     
     return train_loader, val_loader

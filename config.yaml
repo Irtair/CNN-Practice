@@ -1,11 +1,11 @@
 data:
-  data_dir: "dataset"
-  train_batch_size: 164
+  data_dir: "dataset/ogyeiv2"
+  train_batch_size: 64
   val_batch_size: 64
 
 model:
   downloaded_model_path: "./downloaded_model/tf_mobilenetv3_small_075.pth"
 
 train:
-  epochs: 32
+  epochs: 40
   lr: 0.01
